@@ -1,0 +1,20 @@
+{
+  "name": "waiting-room-cdk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CDK infrastructure for the Virtual Waiting Room (DynamoDB Football Data Modeling Challenge #1)",
+  "scripts": {
+    "synth": "cdk synth --quiet",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "aws-cdk": "^2.1000.0",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.6.0",
+    "@types/node": "^22.0.0"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.170.0",
+    "constructs": "^10.4.2"
+  }
+}
