@@ -1,0 +1,314 @@
+{
+  "ModelName": "VirtualWaitingRoom",
+  "ModelMetadata": {
+    "Author": "Ayhan Sipahi",
+    "DateCreated": "Jul 03, 2026, 10:00 PM",
+    "DateLastModified": "Jul 03, 2026, 10:00 PM",
+    "Description": "DynamoDB Football Data Modeling Challenge #1 - Virtual Waiting Room. Single-table model: uniform-key absorb plane (FanEntry), sparse SequencingIndex GSI for background position assignment, singleton coordination items (ServingState, counters) on the EVT# partition. Eligibility is derived: queuePosition <= servingPosition. Sample data includes three fans in the same arrival bucket with different tiebreaks to show within-bucket lottery ordering.",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "WaitingRoom",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        { "AttributeName": "type", "AttributeType": "S" },
+        { "AttributeName": "status", "AttributeType": "S" },
+        { "AttributeName": "arrivalBucket", "AttributeType": "N" },
+        { "AttributeName": "tiebreak", "AttributeType": "S" },
+        { "AttributeName": "shard", "AttributeType": "N" },
+        { "AttributeName": "queuePosition", "AttributeType": "N" },
+        { "AttributeName": "batchId", "AttributeType": "S" },
+        { "AttributeName": "enteredAt", "AttributeType": "N" },
+        { "AttributeName": "gsi1pk", "AttributeType": "S" },
+        { "AttributeName": "gsi1sk", "AttributeType": "S" },
+        { "AttributeName": "ttl", "AttributeType": "N" },
+        { "AttributeName": "value", "AttributeType": "N" },
+        { "AttributeName": "servingPosition", "AttributeType": "N" },
+        { "AttributeName": "positionsAssigned", "AttributeType": "N" },
+        { "AttributeName": "rateEmaPerSec", "AttributeType": "N" },
+        { "AttributeName": "updatedAt", "AttributeType": "N" },
+        { "AttributeName": "eventState", "AttributeType": "S" },
+        { "AttributeName": "activeCount", "AttributeType": "N" },
+        { "AttributeName": "capacity", "AttributeType": "N" },
+        { "AttributeName": "bucketMs", "AttributeType": "N" },
+        { "AttributeName": "shardCount", "AttributeType": "N" },
+        { "AttributeName": "capacityTarget", "AttributeType": "N" },
+        { "AttributeName": "overshootFactor", "AttributeType": "N" },
+        { "AttributeName": "sessionTtlSec", "AttributeType": "N" },
+        { "AttributeName": "batchPolicy", "AttributeType": "S" },
+        { "AttributeName": "fromPosition", "AttributeType": "N" },
+        { "AttributeName": "toPosition", "AttributeType": "N" },
+        { "AttributeName": "size", "AttributeType": "N" },
+        { "AttributeName": "promotedAt", "AttributeType": "N" },
+        { "AttributeName": "admittedAt", "AttributeType": "N" },
+        { "AttributeName": "deadline", "AttributeType": "N" },
+        { "AttributeName": "expiresAt", "AttributeType": "N" },
+        { "AttributeName": "owner", "AttributeType": "S" }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "SequencingIndex",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "gsi1pk",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "gsi1sk",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "KEYS_ONLY"
+          }
+        }
+      ],
+      "TableData": [
+        {
+          "PK": { "S": "FAN#7c9e6679-7425-40de-944b-e07fc1f90ae7" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "PENDING" },
+          "arrivalBucket": { "N": "1783142103" },
+          "tiebreak": { "S": "3fa85f6457174562" },
+          "shard": { "N": "1042" },
+          "enteredAt": { "N": "1783142103237" },
+          "gsi1pk": { "S": "B#CUPFINAL2026#1783142103#1042" },
+          "gsi1sk": { "S": "3fa85f6457174562#7c9e6679-7425-40de-944b-e07fc1f90ae7" },
+          "ttl": { "N": "1783228503" }
+        },
+        {
+          "PK": { "S": "FAN#f47ac10b-58cc-4372-a567-0e02b2c3d479" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "PENDING" },
+          "arrivalBucket": { "N": "1783142103" },
+          "tiebreak": { "S": "b1946ac92492d234" },
+          "shard": { "N": "1987" },
+          "enteredAt": { "N": "1783142103641" },
+          "gsi1pk": { "S": "B#CUPFINAL2026#1783142103#1987" },
+          "gsi1sk": { "S": "b1946ac92492d234#f47ac10b-58cc-4372-a567-0e02b2c3d479" },
+          "ttl": { "N": "1783228503" }
+        },
+        {
+          "PK": { "S": "FAN#9b2f8c1a-33d0-4c0f-8f2e-6a5b4c3d2e1f" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "QUEUED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "1b4f0e9851971998" },
+          "shard": { "N": "17" },
+          "queuePosition": { "N": "118" },
+          "batchId": { "S": "B-000001" },
+          "enteredAt": { "N": "1783142100091" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "FAN#c0a80101-0001-4000-8000-000000000101" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "QUEUED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "4a44dc15364204a8" },
+          "shard": { "N": "512" },
+          "queuePosition": { "N": "3020" },
+          "batchId": { "S": "B-000007" },
+          "enteredAt": { "N": "1783142100788" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "FAN#c0a80101-0002-4000-8000-000000000102" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "QUEUED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "9e107d9d372bb682" },
+          "shard": { "N": "512" },
+          "queuePosition": { "N": "3021" },
+          "batchId": { "S": "B-000007" },
+          "enteredAt": { "N": "1783142100112" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "FAN#550e8400-e29b-41d4-a716-446655440000" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "QUEUED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "aa1b2c3d4e5f6071" },
+          "shard": { "N": "731" },
+          "queuePosition": { "N": "4211" },
+          "batchId": { "S": "B-000009" },
+          "enteredAt": { "N": "1783142100455" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "FAN#6ba7b810-9dad-11d1-80b4-00c04fd430c8" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "QUEUED" },
+          "arrivalBucket": { "N": "1783142101" },
+          "tiebreak": { "S": "07f1c3e2a9b84d56" },
+          "shard": { "N": "3" },
+          "queuePosition": { "N": "610233" },
+          "batchId": { "S": "B-001221" },
+          "enteredAt": { "N": "1783142101019" },
+          "ttl": { "N": "1783228501" }
+        },
+        {
+          "PK": { "S": "FAN#016f7d3c-2a5b-4e8d-9c1f-3b6a8d0e2f4a" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "QUEUED" },
+          "arrivalBucket": { "N": "1783142104" },
+          "tiebreak": { "S": "5d41402abc4b2a76" },
+          "shard": { "N": "1500" },
+          "queuePosition": { "N": "4300512" },
+          "batchId": { "S": "B-008602" },
+          "enteredAt": { "N": "1783142104903" },
+          "ttl": { "N": "1783228504" }
+        },
+        {
+          "PK": { "S": "FAN#e2b1c3d4-5f6a-4789-b012-3456789abcde" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "ADMITTED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "02c75fb22c75b23d" },
+          "shard": { "N": "8" },
+          "queuePosition": { "N": "87" },
+          "batchId": { "S": "B-000001" },
+          "enteredAt": { "N": "1783142100033" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "FAN#a1b2c3d4-e5f6-4708-9a0b-1c2d3e4f5a6b" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "CLOSED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "0116a8e295a2b2f1" },
+          "shard": { "N": "2" },
+          "queuePosition": { "N": "12" },
+          "batchId": { "S": "B-000001" },
+          "enteredAt": { "N": "1783142100011" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "FAN#deadbeef-0000-4a4a-8b8b-cafef00d1234" },
+          "SK": { "S": "EVT#CUPFINAL2026" },
+          "type": { "S": "FanEntry" },
+          "status": { "S": "EXPIRED" },
+          "arrivalBucket": { "N": "1783142100" },
+          "tiebreak": { "S": "01ba4719c80b6fe9" },
+          "shard": { "N": "5" },
+          "queuePosition": { "N": "45" },
+          "batchId": { "S": "B-000001" },
+          "enteredAt": { "N": "1783142100027" },
+          "ttl": { "N": "1783228500" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "CTR#POSITION" },
+          "type": { "S": "PositionCounter" },
+          "value": { "N": "9834021" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "STATE#SERVING" },
+          "type": { "S": "ServingState" },
+          "servingPosition": { "N": "5200" },
+          "positionsAssigned": { "N": "9834021" },
+          "rateEmaPerSec": { "N": "5.4" },
+          "updatedAt": { "N": "1783142260000" },
+          "eventState": { "S": "OPEN" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "CTR#ACTIVE" },
+          "type": { "S": "ActiveCounter" },
+          "activeCount": { "N": "998" },
+          "capacity": { "N": "1000" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "CONFIG" },
+          "type": { "S": "EventConfig" },
+          "bucketMs": { "N": "1000" },
+          "shardCount": { "N": "2048" },
+          "capacityTarget": { "N": "1000" },
+          "overshootFactor": { "N": "1.2" },
+          "sessionTtlSec": { "N": "600" },
+          "batchPolicy": { "S": "DEFICIT;rampFixed=1200" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "BATCH#P-000001" },
+          "type": { "S": "Batch" },
+          "fromPosition": { "N": "1" },
+          "toPosition": { "N": "1200" },
+          "size": { "N": "1200" },
+          "promotedAt": { "N": "1783142110000" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "BATCH#P-000015" },
+          "type": { "S": "Batch" },
+          "fromPosition": { "N": "5001" },
+          "toPosition": { "N": "5200" },
+          "size": { "N": "200" },
+          "promotedAt": { "N": "1783142260000" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "BATCH#P-000016" },
+          "type": { "S": "Batch" },
+          "fromPosition": { "N": "5201" },
+          "toPosition": { "N": "5322" },
+          "size": { "N": "122" },
+          "promotedAt": { "N": "1783142270000" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "SESSION#e2b1c3d4-5f6a-4789-b012-3456789abcde" },
+          "type": { "S": "Session" },
+          "status": { "S": "ACTIVE" },
+          "admittedAt": { "N": "1783142250000" },
+          "deadline": { "N": "1783142850000" },
+          "expiresAt": { "N": "1783142850" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "SESSION#a1b2c3d4-e5f6-4708-9a0b-1c2d3e4f5a6b" },
+          "type": { "S": "Session" },
+          "status": { "S": "CLOSED" },
+          "admittedAt": { "N": "1783142130000" },
+          "deadline": { "N": "1783142730000" },
+          "expiresAt": { "N": "1783142730" }
+        },
+        {
+          "PK": { "S": "EVT#CUPFINAL2026" },
+          "SK": { "S": "LEASE#SEQUENCER" },
+          "type": { "S": "Lease" },
+          "owner": { "S": "seq-7f3a9c" },
+          "expiresAt": { "N": "1783142275000" }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PAY_PER_REQUEST"
+    }
+  ]
+}
