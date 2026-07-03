@@ -1,0 +1,5 @@
+node_modules/
+cdk/cdk.out/
+sim/dist/
+*.log
+.DS_Store
