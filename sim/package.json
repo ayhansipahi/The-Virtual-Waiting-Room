@@ -1,0 +1,15 @@
+{
+  "name": "waiting-room-sim",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Discrete-event simulator for the waiting-room design - no AWS calls, zero dependencies",
+  "scripts": {
+    "sim": "node waiting-room-sim.ts",
+    "sim:quick": "node waiting-room-sim.ts --fans 100000 --seconds 600",
+    "sim:full": "node waiting-room-sim.ts --fans 10000000 --seconds 1800"
+  },
+  "engines": {
+    "node": ">=22.18"
+  }
+}
