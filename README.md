@@ -1,10 +1,18 @@
 # The Virtual Waiting Room — Fairly Queuing 10 Million Fans on DynamoDB
 
+[![ci](https://github.com/ayhansipahi/The-Virtual-Waiting-Room/actions/workflows/ci.yml/badge.svg)](https://github.com/ayhansipahi/The-Virtual-Waiting-Room/actions/workflows/ci.yml)
+
 Submission for the **AWS DynamoDB Football Data Modeling Challenge #1**
 ([challenge page](https://builder.aws.com/content/3FbJLetP1QgDYVWeAKsomJZATiy/the-virtual-waiting-room-fairly-queuing-1-million-fans-under-extreme-load)).
 A DynamoDB-powered waiting room that absorbs a 1M-fans/second stampede, assigns every fan a
 fair, verifiable queue position, and admits batches into a purchase flow hard-capped at 1,000
 concurrent buyers — with real-time status for millions of simultaneous pollers.
+
+> **Results:** listed among the challenge winners and one of the three submissions
+> highlighted by the DynamoDB team in the
+> [official results post](https://builder.aws.com/content/3HFBRmHMH1T5ksGCS2TLrKIW8Qe/dynamodb-data-modeling-challenge-1-results):
+> *"This entry stands out as one of the best expressions of a core DynamoDB principle to
+> distribute heat, push all coordination onto partitions you keep deliberately cold."*
 
 ## Executive summary
 
